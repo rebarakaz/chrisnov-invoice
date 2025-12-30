@@ -13,7 +13,7 @@ class Config:
     # Business Information
     BUSINESS_NAME = "Chrisnov IT Solutions"
     BUSINESS_ADDRESS = "Jl. Soekarno No. 24, Ruteng, Flores, Indonesia"
-    BUSINESS_PHONE = "+62 859-5536-2932"
+    BUSINESS_PHONE = "+62859-5536-2932"
     BUSINESS_EMAIL = "contact@chrisnov.com"
     BUSINESS_WEBSITE = "https://chrisnov.com"
     

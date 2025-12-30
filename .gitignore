@@ -124,6 +124,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Internal Development Notes
+*_GUIDE.md
+*_FIX.md
+TROUBLESHOOTING*.md
+
 # Custom
 chrisnov_invoice.db
 sessions/
