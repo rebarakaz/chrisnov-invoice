@@ -2,7 +2,7 @@
 
 **Chrisnov Invoice** is a modern, open-source invoicing application designed for freelancers and small businesses. Built with Python and Flask, it provides a user-friendly web interface to manage clients, create professional invoices, and streamline your billing process.
 
-![Chrisnov Invoice Dashboard](docs/images/screenshot-dashboard.png)
+![Chrisnov Invoice Dashboard](docs/images/dashboard.png)
 
 ## ✨ Key Features
 
