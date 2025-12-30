@@ -37,7 +37,7 @@
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/chrisnov-invoice.git
+   git clone https://github.com/rebarakaz/chrisnov-invoice.git
    cd chrisnov-invoice
    ```
 
