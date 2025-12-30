@@ -1,0 +1,690 @@
+{% extends "base.html" %}
+
+{% block page_title %}PDF Templates{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <form method="POST" action="{{ url_for('settings.pdf_templates') }}">
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">PDF Templates</h1>
+                    <p class="mt-2 text-gray-600">Customize the appearance and layout of your invoice PDFs.</p>
+                </div>
+                <a href="{{ url_for('settings.index') }}"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Template Selection -->
+        <div class="bg-white rounded-xl shadow-md p-8 mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">Choose Template Style</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Professional Template -->
+                <div class="border-2 border-blue-200 rounded-lg p-4 cursor-pointer hover:border-blue-400 transition duration-200 template-option"
+                    data-template="professional">
+                    <div class="text-center mb-4">
+                        <div
+                            class="w-full h-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded mb-3 flex items-center justify-center">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900">Professional</h3>
+                        <p class="text-sm text-gray-600 mt-1">Clean, corporate design</p>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="template-professional" name="pdf_template" value="professional" {% if
+                            config.get('PDF_TEMPLATE', 'professional' )=='professional' %}checked{% endif %}
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <label for="template-professional" class="ml-2 block text-sm text-gray-700 font-medium">
+                            Select Professional
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Modern Template -->
+                <div class="border-2 border-green-200 rounded-lg p-4 cursor-pointer hover:border-green-400 transition duration-200 template-option"
+                    data-template="modern">
+                    <div class="text-center mb-4">
+                        <div
+                            class="w-full h-20 bg-gradient-to-r from-green-500 to-teal-600 rounded mb-3 flex items-center justify-center">
+                            <i class="fas fa-rocket text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900">Modern</h3>
+                        <p class="text-sm text-gray-600 mt-1">Contemporary and fresh</p>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="template-modern" name="pdf_template" value="modern" {% if
+                            config.get('PDF_TEMPLATE')=='modern' %}checked{% endif %}
+                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300">
+                        <label for="template-modern" class="ml-2 block text-sm text-gray-700 font-medium">
+                            Select Modern
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Minimal Template -->
+                <div class="border-2 border-gray-200 rounded-lg p-4 cursor-pointer hover:border-gray-400 transition duration-200 template-option"
+                    data-template="minimal">
+                    <div class="text-center mb-4">
+                        <div
+                            class="w-full h-20 bg-gradient-to-r from-gray-400 to-gray-600 rounded mb-3 flex items-center justify-center">
+                            <i class="fas fa-minus text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900">Minimal</h3>
+                        <p class="text-sm text-gray-600 mt-1">Simple and elegant</p>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="template-minimal" name="pdf_template" value="minimal" {% if
+                            config.get('PDF_TEMPLATE')=='minimal' %}checked{% endif %}
+                            class="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-300">
+                        <label for="template-minimal" class="ml-2 block text-sm text-gray-700 font-medium">
+                            Select Minimal
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Elegant Template -->
+                <div class="border-2 border-purple-200 rounded-lg p-4 cursor-pointer hover:border-purple-400 transition duration-200 template-option"
+                    data-template="elegant">
+                    <div class="text-center mb-4">
+                        <div
+                            class="w-full h-20 bg-gradient-to-r from-purple-500 to-indigo-600 rounded mb-3 flex items-center justify-center">
+                            <i class="fas fa-gem text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-900">Elegant</h3>
+                        <p class="text-sm text-gray-600 mt-1">Refined and stylish</p>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="template-elegant" name="pdf_template" value="elegant" {% if
+                            config.get('PDF_TEMPLATE')=='elegant' %}checked{% endif %}
+                            class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300">
+                        <label for="template-elegant" class="ml-2 block text-sm text-gray-700 font-medium">
+                            Select Elegant
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Template Preview -->
+        <div class="bg-white rounded-xl shadow-md p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Template Preview: <span
+                        id="current-template-name">Professional</span></h2>
+                <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <i class="fas fa-eye mr-2"></i> Preview
+                </span>
+            </div>
+
+            <!-- Template Preview -->
+            <div class="border-2 border-gray-200 rounded-lg p-6 bg-gray-50">
+                <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden min-h-[500px] relative">
+
+                    <!-- Professional Preview -->
+                    <div id="preview-professional" class="template-preview-content h-full">
+                        <div id="preview-header-professional"
+                            class="bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-white min-h-[120px] flex items-center">
+                            <div class="flex justify-between items-center w-full">
+                                <div class="flex-1">
+                                    <h3 class="text-2xl font-bold mb-2">{{ config['BUSINESS_NAME'] or 'Your Business
+                                        Name' }}</h3>
+                                    <p class="text-blue-100 text-sm leading-relaxed">{{ config['BUSINESS_ADDRESS'] or
+                                        'Your Business Address' }}</p>
+                                </div>
+                                <div class="text-right ml-6">
+                                    <div class="text-3xl font-bold mb-1">INVOICE</div>
+                                    <div class="text-blue-100 text-sm">#INV-2025-001</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 gap-8 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-2">Bill To:</h4>
+                                    <div class="text-gray-700 text-sm">
+                                        <div class="font-medium">Sample Client</div>
+                                        <div>123 Client Street</div>
+                                        <div>client@example.com</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="space-y-2 text-sm">
+                                        <div><span class="font-medium">Date:</span> Oct 31, 2025</div>
+                                        <div><span class="font-medium">Due:</span> Nov 30, 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="w-full mb-6">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                                            Description</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+                                            Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm">Web Development</td>
+                                        <td class="px-4 py-3 text-right text-sm font-medium">$500.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end border-t pt-4">
+                                <div class="w-64 flex justify-between text-lg font-bold">
+                                    <span>Total:</span>
+                                    <span class="text-blue-700">$550.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modern Preview -->
+                    <div id="preview-modern" class="template-preview-content h-full hidden flex flex-row">
+                        <!-- Sidebar -->
+                        <div class="w-1/3 bg-gray-800 text-white p-6 flex flex-col">
+                            <div class="mb-8">
+                                <h3 class="text-2xl font-bold text-green-400 mb-2">INVOICE</h3>
+                                <p class="text-gray-400">#INV-2025-001</p>
+                            </div>
+                            <div class="mb-8">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bill To</h4>
+                                <div class="text-sm">
+                                    <p class="font-bold text-white">Sample Client</p>
+                                    <p class="text-gray-300">123 Client Street</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Details</h4>
+                                <div class="text-sm space-y-1">
+                                    <p><span class="text-gray-400">Issued:</span> Oct 31, 2025</p>
+                                    <p><span class="text-gray-400">Due:</span> Nov 30, 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Main Content -->
+                        <div class="w-2/3 p-6 bg-white">
+                            <div class="text-right mb-12">
+                                <h3 class="text-xl font-bold text-gray-900">{{ config['BUSINESS_NAME'] or 'Your Business
+                                    Name' }}</h3>
+                                <p class="text-gray-500 text-sm">{{ config['BUSINESS_ADDRESS'] or 'Your Business
+                                    Address' }}</p>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-4 border-b pb-2">ITEMS & SERVICES</h4>
+                            <table class="w-full mb-8">
+                                <thead>
+                                    <tr class="text-gray-500 text-xs text-left">
+                                        <th class="py-2">DESCRIPTION</th>
+                                        <th class="py-2 text-right">AMOUNT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="py-3 text-sm font-bold text-gray-800">Web Development</td>
+                                        <td class="py-3 text-right text-sm text-gray-600">$500.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end">
+                                <div class="w-48">
+                                    <div
+                                        class="flex justify-between text-xl font-bold text-gray-900 border-t-2 border-gray-100 pt-4">
+                                        <span>TOTAL</span>
+                                        <span class="text-green-600">$550.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Minimal Preview -->
+                    <div id="preview-minimal" class="template-preview-content h-full hidden p-8 bg-white">
+                        <div class="flex justify-between items-start mb-12 border-b pb-8">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-1">{{ config['BUSINESS_NAME'] or 'Your
+                                    Business Name' }}</h3>
+                                <p class="text-gray-500 text-sm">{{ config['BUSINESS_ADDRESS'] or 'Your Business
+                                    Address' }}</p>
+                            </div>
+                            <div class="text-right">
+                                <h3 class="text-2xl font-light text-gray-400">INVOICE</h3>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-8 mb-12">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Billed To</h4>
+                                <p class="text-sm font-bold text-gray-900">Sample Client</p>
+                                <p class="text-sm text-gray-500">123 Client Street</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Date</h4>
+                                <p class="text-sm text-gray-900">Oct 31, 2025</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Invoice No</h4>
+                                <p class="text-sm text-gray-900">INV-001</p>
+                            </div>
+                        </div>
+
+                        <table class="w-full mb-8">
+                            <thead>
+                                <tr class="border-b-2 border-black">
+                                    <th class="text-left py-2 text-xs font-bold tracking-wider">DESCRIPTION</th>
+                                    <th class="text-right py-2 text-xs font-bold tracking-wider">AMOUNT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-100">
+                                    <td class="py-4 text-sm">Web Development Service</td>
+                                    <td class="py-4 text-right text-sm font-bold">$500.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-end">
+                            <div class="flex justify-between w-64 items-center">
+                                <span class="text-sm font-bold">Total Due</span>
+                                <span class="text-xl font-bold">$550.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elegant Preview -->
+                    <div id="preview-elegant"
+                        class="template-preview-content h-full hidden p-8 bg-white text-center font-serif">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 uppercase tracking-widest">{{
+                                config['BUSINESS_NAME'] or 'Your Business Name' }}</h3>
+                            <p class="text-gray-500 text-xs uppercase tracking-wider">{{ config['BUSINESS_ADDRESS'] or
+                                'Your Business Address' }}</p>
+                        </div>
+
+                        <div class="mb-10">
+                            <h2
+                                class="text-xl font-bold border-y border-black py-2 inline-block px-12 uppercase tracking-widest">
+                                Invoice</h2>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 mb-10 text-left text-sm max-w-2xl mx-auto">
+                            <div>
+                                <h4 class="font-bold border-b border-gray-300 pb-1 mb-2 uppercase text-xs">Billed To
+                                </h4>
+                                <p>Sample Client</p>
+                                <p class="text-gray-500">123 Client Street</p>
+                            </div>
+                            <div></div>
+                            <div class="text-right">
+                                <h4 class="font-bold border-b border-gray-300 pb-1 mb-2 uppercase text-xs">Details</h4>
+                                <p><span class="text-gray-500">No:</span> INV-001</p>
+                                <p><span class="text-gray-500">Date:</span> Oct 31</p>
+                            </div>
+                        </div>
+
+                        <table class="w-full max-w-3xl mx-auto mb-10">
+                            <thead>
+                                <tr class="border-b border-black">
+                                    <th class="py-2 text-left font-bold uppercase text-xs">Description</th>
+                                    <th class="py-2 text-right font-bold uppercase text-xs">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 text-left">Web Development Service</td>
+                                    <td class="py-3 text-right">$500.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="max-w-3xl mx-auto flex justify-end">
+                            <div class="w-64 border-t border-black pt-2 flex justify-between items-end">
+                                <span class="font-bold uppercase text-xs">Total Amount</span>
+                                <span class="text-xl font-bold">$550.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer (Shared/Dynamic) -->
+                    <div
+                        class="absolute bottom-0 w-full bg-gray-50 px-6 py-3 text-center text-gray-500 text-xs border-t">
+                        {{ config.get('PDF_FOOTER_TEXT', 'Thank you for your business!') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template Customization Options -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Color Scheme -->
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Color Scheme</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Header Background</label>
+                        <div class="grid grid-cols-4 gap-3">
+                            <div class="flex items-center">
+                                <input type="radio" id="header-blue" name="header_color" value="blue" {% if
+                                    config.get('PDF_HEADER_COLOR', 'blue' )=='blue' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="header-blue" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded mr-2"></div>
+                                    Blue
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="header-green" name="header_color" value="green" {% if
+                                    config.get('PDF_HEADER_COLOR')=='green' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="header-green" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-green-600 to-green-800 rounded mr-2">
+                                    </div>
+                                    Green
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="header-purple" name="header_color" value="purple" {% if
+                                    config.get('PDF_HEADER_COLOR')=='purple' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="header-purple" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-purple-600 to-purple-800 rounded mr-2">
+                                    </div>
+                                    Purple
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="header-gray" name="header_color" value="gray" {% if
+                                    config.get('PDF_HEADER_COLOR')=='gray' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="header-gray" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-gray-600 to-gray-800 rounded mr-2"></div>
+                                    Gray
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Accent Color</label>
+                        <div class="grid grid-cols-4 gap-3">
+                            <div class="flex items-center">
+                                <input type="radio" id="accent-blue" name="accent_color" value="blue" {% if
+                                    config.get('PDF_ACCENT_COLOR', 'blue' )=='blue' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="accent-blue" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-blue-600 rounded mr-2"></div>
+                                    Blue
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="accent-green" name="accent_color" value="green" {% if
+                                    config.get('PDF_ACCENT_COLOR')=='green' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="accent-green" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-green-600 rounded mr-2"></div>
+                                    Green
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="accent-orange" name="accent_color" value="orange" {% if
+                                    config.get('PDF_ACCENT_COLOR')=='orange' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="accent-orange" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-orange-600 rounded mr-2"></div>
+                                    Orange
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="accent-red" name="accent_color" value="red" {% if
+                                    config.get('PDF_ACCENT_COLOR')=='red' %}checked{% endif %}
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="accent-red" class="ml-2 flex items-center">
+                                    <div class="w-6 h-6 bg-red-600 rounded mr-2"></div>
+                                    Red
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layout Options -->
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Layout Options</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Logo Position</label>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <input type="radio" id="logo-left" name="logo_position" value="left" checked
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="logo-left" class="ml-2 block text-sm text-gray-700">
+                                    Left side of header
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="logo-center" name="logo_position" value="center"
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="logo-center" class="ml-2 block text-sm text-gray-700">
+                                    Center of header
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="logo-right" name="logo_position" value="right"
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="logo-right" class="ml-2 block text-sm text-gray-700">
+                                    Right side of header
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Footer Text</label>
+                        <textarea id="footer_text" name="footer_text" rows="3"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Thank you for your business!">{{ config.get('PDF_FOOTER_TEXT', 'Thank you for your business!') }}</textarea>
+                        <p class="mt-2 text-sm text-gray-500">Custom footer text that appears at the bottom of invoices
+                        </p>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="show_logo" name="show_logo" checked
+                            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="show_logo" class="ml-2 block text-sm text-gray-700">
+                            Show company logo on invoices
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Settings -->
+        <div class="mt-8 bg-white rounded-xl shadow-md p-8">
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200">
+                    Reset to Default
+                </button>
+                <button type="submit"
+                    class="px-6 py-3 bg-primary hover:bg-blue-900 text-white font-semibold rounded-lg transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    <i class="fas fa-save mr-2"></i> Save Template Settings
+                </button>
+            </div>
+
+            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-800">
+                            <strong>Note:</strong> Template changes will apply to all new PDF generations. Existing PDFs
+                            will not be affected.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Template definitions with their colors
+        const templates = {
+            'professional': {
+                name: 'Professional',
+                headerGradient: 'from-blue-600 to-blue-800',
+                color: '#1e3a8a',
+                defaultHeaderColor: 'blue'
+            },
+            'modern': {
+                name: 'Modern',
+                headerGradient: 'from-green-500 to-teal-600',
+                color: '#059669',
+                defaultHeaderColor: 'green'
+            },
+            'minimal': {
+                name: 'Minimal',
+                headerGradient: 'from-gray-400 to-gray-600',
+                color: '#374151',
+                defaultHeaderColor: 'gray'
+            },
+            'elegant': {
+                name: 'Elegant',
+                headerGradient: 'from-purple-600 to-indigo-700',
+                color: '#7c3aed',
+                defaultHeaderColor: 'purple'
+            }
+        };
+
+        // Color mapping for custom colors
+        const colorClasses = {
+            'blue': 'from-blue-600 to-blue-800',
+            'green': 'from-green-600 to-green-800',
+            'purple': 'from-purple-600 to-purple-800',
+            'gray': 'from-gray-600 to-gray-800'
+        };
+
+        // Function to update template selection
+        function updateTemplateSelection() {
+            const selectedTemplate = document.querySelector('input[name="pdf_template"]:checked').value;
+            const templateNameElement = document.getElementById('current-template-name');
+
+            if (templateNameElement) {
+                templateNameElement.textContent = templates[selectedTemplate].name;
+            }
+
+            // Hide all previews
+            document.querySelectorAll('.template-preview-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('flex'); // For flex layouts like Modern
+            });
+
+            // Show selected preview
+            const selectedPreview = document.getElementById(`preview-${selectedTemplate}`);
+            if (selectedPreview) {
+                selectedPreview.classList.remove('hidden');
+                if (selectedTemplate === 'modern') {
+                    selectedPreview.classList.add('flex');
+                }
+            }
+
+            // Set the corresponding header color radio button (Only for Professional)
+            if (selectedTemplate === 'professional') {
+                const colorForTemplate = templates[selectedTemplate].defaultHeaderColor;
+                const colorRadio = document.querySelector(`input[name="header_color"][value="${colorForTemplate}"]`);
+                if (colorRadio) {
+                    colorRadio.checked = true;
+                }
+                // Enable color inputs
+                document.querySelectorAll('input[name="header_color"]').forEach(el => el.disabled = false);
+                updatePreviewHeader();
+            } else {
+                // Disable color inputs for fixed-style templates
+                document.querySelectorAll('input[name="header_color"]').forEach(el => el.disabled = true);
+            }
+        }
+
+        // Function to update preview header color (Professional only)
+        function updatePreviewHeader() {
+            const selectedHeaderColor = document.querySelector('input[name="header_color"]:checked').value;
+            const previewHeader = document.getElementById('preview-header-professional');
+
+            if (!previewHeader) return;
+
+            // Remove all possible gradient classes
+            Object.values(templates).forEach(template => {
+                if (template.headerGradient) {
+                    previewHeader.classList.remove(...template.headerGradient.split(' '));
+                }
+            });
+            Object.values(colorClasses).forEach(className => {
+                previewHeader.classList.remove(...className.split(' '));
+            });
+
+            // Add the selected gradient classes
+            const gradientClasses = colorClasses[selectedHeaderColor];
+            if (gradientClasses) {
+                previewHeader.classList.add(...gradientClasses.split(' '));
+            }
+        }
+
+        // Add event listeners to template radio buttons
+        document.querySelectorAll('input[name="pdf_template"]').forEach(radio => {
+            radio.addEventListener('change', updateTemplateSelection);
+        });
+
+        // Add event listeners to header color radio buttons
+        document.querySelectorAll('input[name="header_color"]').forEach(radio => {
+            radio.addEventListener('change', updatePreviewHeader);
+        });
+
+        // Add click handlers for template option cards
+        document.querySelectorAll('.template-option').forEach(card => {
+            card.addEventListener('click', function () {
+                const templateValue = this.getAttribute('data-template');
+                const radio = document.querySelector(`input[name="pdf_template"][value="${templateValue}"]`);
+                if (radio) {
+                    radio.checked = true;
+                    updateTemplateSelection();
+                }
+            });
+        });
+
+        // Initialize with default selections
+        updateTemplateSelection();
+        updatePreviewHeader();
+
+        // Handle form submission
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                // Add loading state to submit button
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<div class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div> Saving...';
+
+                    // Re-enable after 5 seconds as fallback
+                    setTimeout(() => {
+                        if (submitBtn.disabled) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                        }
+                    }, 5000);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

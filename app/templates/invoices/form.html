@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+
+{% block page_title %}{% if invoice %}Edit Invoice{% else %}New Invoice{% endif %}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+            {% if invoice %}Edit Invoice{% else %}Create New Invoice{% endif %}
+        </h2>
+
+        <form method="POST" id="invoiceForm" class="space-y-6">
+            <!-- Invoice Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="invoice_number" class="block text-sm font-medium text-gray-700 mb-2">
+                        Invoice Number <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="invoice_number" name="invoice_number" 
+                           value="{% if invoice %}{{ invoice.invoice_number }}{% else %}{{ invoice_number }}{% endif %}" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                           placeholder="e.g. INV-202501-0001" required title="Invoice Number">
+                </div>
+
+                <div>
+                    <label for="client_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Client <span class="text-red-500">*</span>
+                    </label>
+                    <select id="client_id" name="client_id" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">Select a client</option>
+                        {% for client in clients %}
+                        <option value="{{ client.id }}" {% if invoice and invoice.client_id == client.id %}selected{% endif %}>
+                            {{ client.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="issue_date" class="block text-sm font-medium text-gray-700 mb-2">
+                        Issue Date <span class="text-red-500">*</span>
+                    </label>
+                    <input type="date" id="issue_date" name="issue_date" required
+                           value="{% if invoice %}{{ invoice.issue_date }}{% endif %}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+
+                <div>
+                    <label for="due_date" class="block text-sm font-medium text-gray-700 mb-2">
+                        Due Date <span class="text-red-500">*</span>
+                    </label>
+                    <input type="date" id="due_date" name="due_date" required
+                           value="{% if invoice %}{{ invoice.due_date }}{% else %}{{ default_due_date }}{% endif %}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+
+                <div>
+                    <label for="tax_rate" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tax Rate (%)
+                    </label>
+                    <input type="number" id="tax_rate" name="tax_rate" step="0.01" min="0"
+                           value="{% if invoice %}{{ invoice.tax_rate * 100 }}{% else %}{{ config['TAX_RATE'] * 100 }}{% endif %}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+
+                <div>
+                    <label for="currency" class="block text-sm font-medium text-gray-700 mb-2">
+                        Currency
+                    </label>
+                    <select id="currency" name="currency"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        {% for code, currency in config.SUPPORTED_CURRENCIES.items() %}
+                        <option value="{{ code }}" {% if invoice and invoice.currency == code %}selected{% elif not invoice and code == config.DEFAULT_CURRENCY %}selected{% endif %}>
+                            {{ currency.symbol }} {{ currency.name }} ({{ code }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Invoice Items -->
+            <div class="mt-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Items</h3>
+                    <button type="button" onclick="addItem()" class="bg-secondary hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm">
+                        <i class="fas fa-plus mr-1"></i> Add Item
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full" id="itemsTable">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-24">Qty</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">Rate</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">Amount</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-20">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsBody">
+                            {% if invoice and invoice.items %}
+                                {% for item in invoice.items %}
+                                <tr class="item-row">
+                                    <td class="px-4 py-2">
+                                        <label for="description_{{ loop.index0 }}" class="sr-only">Description</label>
+                                        <input type="text" id="description_{{ loop.index0 }}" name="description[]" value="{{ item.description }}" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                                               placeholder="Service description">
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <label for="quantity_{{ loop.index0 }}" class="sr-only">Quantity</label>                                        <input type="number" id="quantity_{{ loop.index0 }}" name="quantity[]" value="{{ item.quantity }}" step="0.01" min="0" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary quantity"
+                                               onchange="calculateRow(this)">
+                                    </td>
+                                    <td class="px-4 py-2">                                        <label for="rate_{{ loop.index0 }}" class="sr-only">Rate</label>
+                                        <input type="number" name="rate[]" value="{{ item.rate }}" step="0.01" min="0" required
+                                               id="rate_{{ loop.index0 }}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary rate"
+                                               onchange="calculateRow(this)">
+                                    </td>
+                                    <td class="px-4 py-2">                                        <label for="amount_{{ loop.index0 }}" class="sr-only">Amount</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50 amount" 
+                                               id="amount_{{ loop.index0 }}"
+                                               value="{{ '%.2f'|format(item.amount) }}" readonly>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <button type="button" onclick="removeItem(this)" class="text-red-600 hover:text-red-800" title="Remove Item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="item-row">
+                                    <td class="px-4 py-2">
+                                        <label for="description_new" class="sr-only">Description</label>
+                                        <input type="text" name="description[]" required
+                                               id="description_new" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                                               placeholder="Service description">
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <label for="quantity_new" class="sr-only">Quantity</label>
+                                        <input type="number" name="quantity[]" value="1" step="0.01" min="0" required
+                                               id="quantity_new" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary quantity"
+                                               onchange="calculateRow(this)">
+                                    </td>
+                                    <td class="px-4 py-2">                                        <label for="rate_new" class="sr-only">Rate</label>
+                                        <input type="number" name="rate[]" step="0.01" min="0" required
+                                               id="rate_new" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary rate"
+                                               onchange="calculateRow(this)">
+                                    </td>
+                                    <td class="px-4 py-2">                                        <label for="amount_new" class="sr-only">Amount</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50 amount" 
+                                               id="amount_new"
+                                               value="0.00" readonly>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <button type="button" onclick="removeItem(this)" class="text-red-600 hover:text-red-800" title="Remove Item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Totals -->
+            <div class="mt-6 flex justify-end">
+                <div class="w-full md:w-1/2 space-y-3">
+                    <div class="flex justify-between text-gray-700">
+                        <span>Subtotal:</span>
+                        <span class="font-semibold" id="subtotal"></span>
+                    </div>
+                    <div class="flex justify-between text-gray-700">
+                        <span>Tax:</span>
+                        <span class="font-semibold" id="taxAmount"></span>
+                    </div>
+                    <div class="flex justify-between text-xl font-bold text-gray-900 pt-3 border-t-2 border-gray-300">
+                        <span>Total:</span>
+                        <span id="total"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div>
+                <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
+                    Notes
+                </label>
+                <textarea id="notes" name="notes" rows="3"
+                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          placeholder="Additional notes or payment instructions">{{ invoice.notes if invoice else '' }}</textarea>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex gap-4 pt-4">
+                <button type="submit" class="flex-1 bg-primary hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-lg transition">
+                    <i class="fas fa-save mr-2"></i>
+                    {% if invoice %}Update Invoice{% else %}Create Invoice{% endif %}
+                </button>
+                <a href="{{ url_for('invoices.index') }}" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-semibold py-3 px-6 rounded-lg transition text-center">
+                    <i class="fas fa-times mr-2"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let itemCount = 0; // Counter for unique IDs
+
+function addItem() {
+    const tbody = document.getElementById('itemsBody');
+    const row = document.createElement('tr');
+    row.className = 'item-row';
+    row.innerHTML = `
+        <td class="px-4 py-2">
+            <label for="description_new_${itemCount}" class="sr-only">Description</label>
+            <input type="text" name="description[]" required
+                   id="description_new_${itemCount}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                   placeholder="Service description">
+        </td>
+        <td class="px-4 py-2">
+            <label for="quantity_new_${itemCount}" class="sr-only">Quantity</label>
+            <input type="number" name="quantity[]" value="1" step="0.01" min="0" required
+                   id="quantity_new_${itemCount}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary quantity"
+                   onchange="calculateRow(this)">
+        </td>
+        <td class="px-4 py-2">
+            <label for="rate_new_${itemCount}" class="sr-only">Rate</label>
+            <input type="number" name="rate[]" step="0.01" min="0" required
+                   id="rate_new_${itemCount}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary rate"
+                   onchange="calculateRow(this)">
+        </td>
+        <td class="px-4 py-2">
+            <label for="amount_new_${itemCount}" class="sr-only">Amount</label>
+            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50 amount" 
+                   value="0.00" readonly>
+        </td>
+        <td class="px-4 py-2">
+            <button type="button" onclick="removeItem(this)" class="text-red-600 hover:text-red-800" title="Remove Item">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(row);
+    itemCount++; // Increment for unique IDs
+}
+
+function removeItem(btn) {
+    const rows = document.querySelectorAll('.item-row');
+    if (rows.length > 1) {
+        btn.closest('tr').remove();
+        calculateTotals();
+    } else {
+        alert('At least one item is required');
+    }
+}
+
+function calculateRow(input) {
+    const row = input.closest('tr');
+    const qty = parseFloat(row.querySelector('.quantity').value) || 0;
+    const rate = parseFloat(row.querySelector('.rate').value) || 0;
+    const amount = qty * rate;
+    row.querySelector('.amount').value = amount.toFixed(2);
+    calculateTotals();
+}
+
+function getCurrencySymbol() {
+    const currencySelect = document.getElementById('currency');
+    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+    const currencyText = selectedOption.text;
+    // Extract symbol from text like "$ US Dollar (USD)"
+    const symbolMatch = currencyText.match(/^([^\s]+)/);
+    return symbolMatch ? symbolMatch[1] : '$';
+}
+
+// Function to format number with thousand separators
+function formatNumberWithThousandsSeparator(number, currencyCode) {
+    // Get currency info from the select options
+    const currencySelect = document.getElementById('currency');
+    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+    const currencyValue = selectedOption.value;
+    
+    // Default separators
+    let thousandsSeparator = ',';
+    let decimalSeparator = '.';
+    
+    // Try to get separators from config if available
+    try {
+        // This would require passing the config to JS, but for now we'll use defaults
+        // and handle common currencies
+        if (currencyValue === 'IDR') {
+            thousandsSeparator = '.';
+            decimalSeparator = ',';
+        } else if (currencyValue === 'EUR') {
+            thousandsSeparator = '.';
+            decimalSeparator = ',';
+        }
+    } catch (e) {
+        // Use defaults
+    }
+    
+    // Format the number
+    if (number === Math.floor(number)) {
+        // Whole number
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+    } else {
+        // Number with decimals
+        const parts = number.toFixed(2).split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+        return parts.join(decimalSeparator);
+    }
+}
+
+function formatCurrencyForDisplay(amount, currencyCode) {
+    const currencySelect = document.getElementById('currency');
+    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+    const currencyText = selectedOption.text;
+    
+    // Extract symbol from text like "$ US Dollar (USD)"
+    const symbolMatch = currencyText.match(/^([^\s]+)/);
+    const symbol = symbolMatch ? symbolMatch[1] : '';
+    
+    const formattedAmount = formatNumberWithThousandsSeparator(amount, currencyCode);
+    
+    // For most currencies, symbol comes before the amount
+    return `${symbol}${formattedAmount}`;
+}
+
+function calculateTotals() {
+    let subtotal = 0;
+    document.querySelectorAll('.item-row').forEach(row => {
+        const amount = parseFloat(row.querySelector('.amount').value) || 0;
+        subtotal += amount;
+    });
+
+    const taxRate = parseFloat(document.getElementById('tax_rate').value) || 0;
+    const taxAmount = subtotal * (taxRate / 100);
+    const total = subtotal + taxAmount;
+
+    // Update display with formatted values
+    document.getElementById('subtotal').textContent = formatCurrencyForDisplay(subtotal, document.getElementById('currency').value);
+    document.getElementById('taxAmount').textContent = formatCurrencyForDisplay(taxAmount, document.getElementById('currency').value);
+    document.getElementById('total').textContent = formatCurrencyForDisplay(total, document.getElementById('currency').value);
+}
+
+// Calculate totals on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.item-row').forEach(row => {
+        const qty = parseFloat(row.querySelector('.quantity').value) || 0;
+        const rate = parseFloat(row.querySelector('.rate').value) || 0;
+        row.querySelector('.amount').value = (qty * rate).toFixed(2);
+    });
+    calculateTotals();
+
+    document.getElementById('tax_rate').addEventListener('change', calculateTotals);
+    document.getElementById('currency').addEventListener('change', calculateTotals);
+});
+</script>
+{% endblock %}

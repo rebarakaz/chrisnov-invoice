@@ -1,0 +1,81 @@
+from app import create_app
+from app.models import RecurringInvoice, Invoice, InvoiceItem
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+import click
+from app.extensions import db
+
+app = create_app()
+
+@app.cli.command("generate-recurring")
+def generate_recurring_invoices():
+    """Generate invoices from recurring invoice schedules."""
+    today = datetime.utcnow().date()
+    due_recurring_invoices = RecurringInvoice.query.filter(
+        RecurringInvoice.is_active,
+        RecurringInvoice.next_due_date <= today
+    ).all()
+
+    for r_invoice in due_recurring_invoices:
+        # Create a new standard invoice
+        new_invoice = Invoice(
+            invoice_number=generate_invoice_number(),
+            client_id=r_invoice.client_id,
+            issue_date=today,
+            due_date=today + timedelta(days=30), # Or calculate based on payment terms
+            currency=r_invoice.currency,
+            tax_rate=r_invoice.tax_rate,
+            notes=r_invoice.notes,
+            status='unpaid' # Or 'draft'
+        )
+
+        for r_item in r_invoice.items:
+            new_item = InvoiceItem(
+                description=r_item.description,
+                quantity=r_item.quantity,
+                rate=r_item.rate
+            )
+            new_item.calculate_amount()
+            new_invoice.items.append(new_item)
+        
+        new_invoice.calculate_totals()
+        db.session.add(new_invoice)
+
+        # Update the next due date
+        if r_invoice.frequency == 'daily':
+            r_invoice.next_due_date += timedelta(days=r_invoice.interval)
+        elif r_invoice.frequency == 'weekly':
+            r_invoice.next_due_date += timedelta(weeks=r_invoice.interval)
+        elif r_invoice.frequency == 'monthly':
+            r_invoice.next_due_date += relativedelta(months=r_invoice.interval)
+        elif r_invoice.frequency == 'yearly':
+            r_invoice.next_due_date += relativedelta(years=r_invoice.interval)
+
+        # Deactivate if end date is reached
+        if r_invoice.end_date and r_invoice.next_due_date > r_invoice.end_date:
+            r_invoice.is_active = False
+
+        click.echo(f"Generated invoice {new_invoice.invoice_number} from recurring invoice {r_invoice.id}.")
+
+    db.session.commit()
+    click.echo("Recurring invoice generation complete.")
+
+def generate_invoice_number():
+    """Generate unique invoice number (copied from invoices.py for CLI use)"""
+    today = datetime.now()
+    prefix = f"INV-{today.strftime('%Y%m')}"
+    
+    last_invoice = Invoice.query.filter(
+        Invoice.invoice_number.like(f"{prefix}%")
+    ).order_by(Invoice.invoice_number.desc()).first()
+    
+    if last_invoice:
+        last_num = int(last_invoice.invoice_number.split('-')[-1])
+        new_num = last_num + 1
+    else:
+        new_num = 1
+    
+    return f"{prefix}-{new_num:04d}"
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=5000)

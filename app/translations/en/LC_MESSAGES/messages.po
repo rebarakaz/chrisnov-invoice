@@ -1,0 +1,240 @@
+# English translation for Invoice Manager
+# Copyright (C) 2025 Chrisnov IT Solutions
+# This file is distributed under the same license as the Invoice Manager package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: invoice-manager 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-18 04:34+0000\n"
+"PO-Revision-Date: 2025-11-18 04:37+0000\n"
+"Last-Translator: Chrisnov IT Solutions\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app/templates/base.html:6
+msgid "%(business)s - Invoice Manager"
+msgstr "%(business)s - Invoice Manager"
+
+#: app/templates/base.html:120
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: app/templates/base.html:125
+msgid "Invoices"
+msgstr "Invoices"
+
+#: app/templates/base.html:130
+msgid "Recurring"
+msgstr "Recurring"
+
+#: app/templates/base.html:135
+msgid "Clients"
+msgstr "Clients"
+
+#: app/templates/base.html:140
+msgid "Settings"
+msgstr "Settings"
+
+#: app/templates/base.html:146
+msgid "© 2025 %(business)s"
+msgstr "© 2025 %(business)s"
+
+#: app/templates/base.html:161
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: app/templates/base.html:164
+msgid "Welcome back!"
+msgstr "Welcome back!"
+
+#: app/templates/base.html:178
+msgid "Close message"
+msgstr "Close message"
+
+#: app/templates/dashboard/index.html:11
+msgid "Welcome back!"
+msgstr "Welcome back!"
+
+#: app/templates/dashboard/index.html:12
+msgid "Here's what's happening with your business today."
+msgstr "Here's what's happening with your business today."
+
+#: app/templates/dashboard/index.html:17
+msgid "Create Invoice"
+msgstr "Create Invoice"
+
+#: app/templates/dashboard/index.html:30
+msgid "Total Revenue"
+msgstr "Total Revenue"
+
+#: app/templates/dashboard/index.html:34
+msgid "+12%% from last month"
+msgstr "+12%% from last month"
+
+#: app/templates/dashboard/index.html:47
+msgid "Pending Amount"
+msgstr "Pending Amount"
+
+#: app/templates/dashboard/index.html:51
+msgid "Awaiting payment"
+msgstr "Awaiting payment"
+
+#: app/templates/dashboard/index.html:64
+msgid "Total Invoices"
+msgstr "Total Invoices"
+
+#: app/templates/dashboard/index.html:68
+msgid "All time"
+msgstr "All time"
+
+#: app/templates/dashboard/index.html:81
+msgid "Total Clients"
+msgstr "Total Clients"
+
+#: app/templates/dashboard/index.html:85
+msgid "Active clients"
+msgstr "Active clients"
+
+#: app/templates/dashboard/index.html:99
+msgid "Invoice Status"
+msgstr "Invoice Status"
+
+#: app/templates/dashboard/index.html:104
+msgid "Draft"
+msgstr "Draft"
+
+#: app/templates/dashboard/index.html:111
+msgid "Sent"
+msgstr "Sent"
+
+#: app/templates/dashboard/index.html:118
+msgid "Unpaid"
+msgstr "Unpaid"
+
+#: app/templates/dashboard/index.html:125
+msgid "Paid"
+msgstr "Paid"
+
+#: app/templates/dashboard/index.html:132
+msgid "Overdue"
+msgstr "Overdue"
+
+#: app/templates/dashboard/index.html:141
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+#: app/templates/dashboard/index.html:144
+msgid "Create New Invoice"
+msgstr "Create New Invoice"
+
+#: app/templates/dashboard/index.html:147
+msgid "Add New Client"
+msgstr "Add New Client"
+
+#: app/templates/dashboard/index.html:150
+msgid "View All Invoices"
+msgstr "View All Invoices"
+
+#: app/templates/dashboard/index.html:159
+msgid "Recent Invoices"
+msgstr "Recent Invoices"
+
+#: app/templates/dashboard/index.html:165
+msgid "Invoice #"
+msgstr "Invoice #"
+
+#: app/templates/dashboard/index.html:166
+msgid "Client"
+msgstr "Client"
+
+#: app/templates/dashboard/index.html:167
+msgid "Date"
+msgstr "Date"
+
+#: app/templates/dashboard/index.html:168
+msgid "Amount"
+msgstr "Amount"
+
+#: app/templates/dashboard/index.html:169
+msgid "Status"
+msgstr "Status"
+
+#: app/templates/dashboard/index.html:170
+msgid "Actions"
+msgstr "Actions"
+
+#: app/templates/dashboard/index.html:200
+msgid "View invoice"
+msgstr "View invoice"
+
+#: app/templates/dashboard/index.html:215
+msgid "No invoices yet"
+msgstr "No invoices yet"
+
+#: app/templates/dashboard/index.html:216
+msgid "Get started by creating your first invoice. It's quick and easy!"
+msgstr "Get started by creating your first invoice. It's quick and easy!"
+
+#: app/templates/dashboard/index.html:219
+msgid "Create Your First Invoice"
+msgstr "Create Your First Invoice"
+
+#: app/templates/settings/index.html:9
+msgid "Settings"
+msgstr "Settings"
+
+#: app/templates/settings/index.html:10
+msgid "Manage your application settings and preferences."
+msgstr "Manage your application settings and preferences."
+
+#: app/templates/settings/index.html:23
+msgid "Currency Settings"
+msgstr "Currency Settings"
+
+#: app/templates/settings/index.html:24
+msgid "Configure default currency and exchange rates"
+msgstr "Configure default currency and exchange rates"
+
+#: app/templates/settings/index.html:29
+msgid "Manage Currencies"
+msgstr "Manage Currencies"
+
+#: app/templates/settings/index.html:43
+msgid "Email Settings"
+msgstr "Email Settings"
+
+#: app/templates/settings/index.html:44
+msgid "Configure email sending for invoices"
+msgstr "Configure email sending for invoices"
+
+#: app/templates/settings/index.html:49
+msgid "Configure Email"
+msgstr "Configure Email"
+
+#: app/templates/settings/index.html:63
+msgid "PDF Templates"
+msgstr "PDF Templates"
+
+#: app/templates/settings/index.html:64
+msgid "Customize invoice PDF appearance"
+msgstr "Customize invoice PDF appearance"
+
+#: app/templates/settings/index.html:69
+msgid "Customize PDFs"
+msgstr "Customize PDFs"
+
+#: app/templates/settings/index.html:83
+msgid "Business Information"
+msgstr "Business Information"
+
+#: app/templates/settings/index.html:84
+msgid "Update company details and branding"
+msgstr "Update company details and branding"
+
+#: app/templates/settings/index.html:89
+msgid "Update Business Info"
+msgstr "Update Business Info"
