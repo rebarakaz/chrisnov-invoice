@@ -128,6 +128,19 @@ Contributions are welcome! If you have ideas for new features, bug fixes, or imp
 5. Push to the branch (`git push origin feature/your-feature-name`).
 6. Open a pull request.
 
+## 📚 Documentation
+
+For more detailed information on specific features, please refer to the following guides:
+
+- [Business Settings](docs/BUSINESS_SETTINGS_GUIDE.md): How to configure your brand and business data.
+- [PDF Templates](docs/PDF_TEMPLATES_GUIDE.md): Customizing the look and feel of your invoices.
+- [Email Settings](docs/EMAIL_SETTINGS_GUIDE.md): Setting up SMTP for direct invoice delivery.
+- [Currency Settings](docs/CURRENCY_SETTINGS_GUIDE.md): Managing multiple currencies and rounding.
+
+## 📜 Changelog
+
+Stay up-to-date with the latest features, improvements, and bug fixes by checking the [CHANGELOG.md](CHANGELOG.md).
+
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
