@@ -141,6 +141,10 @@ For more detailed information on specific features, please refer to the followin
 
 Stay up-to-date with the latest features, improvements, and bug fixes by checking the [CHANGELOG.md](CHANGELOG.md).
 
-## 📄 License
+## �️ Roadmap
+
+We have big plans for the future! Check out our [ROADMAP.md](ROADMAP.md) to see what's coming next, including automated reminders, interactive dashboards, and client portals.
+
+## �📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
