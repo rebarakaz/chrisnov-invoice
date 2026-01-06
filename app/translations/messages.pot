@@ -1,64 +1,50 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invoice-manager 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 04:34+0000\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-01-06 19:07+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: app/templates/base.html:6
-msgid "%(business)s - Invoice Manager"
-msgstr ""
-
-#: app/templates/base.html:120
+#: app/templates/base.html:161 app/templates/base.html:214
+#: app/templates/dashboard/index.html:3
 msgid "Dashboard"
 msgstr ""
 
-#: app/templates/base.html:125
+#: app/templates/base.html:167
 msgid "Invoices"
 msgstr ""
 
-#: app/templates/base.html:130
+#: app/templates/base.html:173
 msgid "Recurring"
 msgstr ""
 
-#: app/templates/base.html:135
+#: app/templates/base.html:179
 msgid "Clients"
 msgstr ""
 
-#: app/templates/base.html:140
+#: app/templates/base.html:185 app/templates/settings/index.html:3
+#: app/templates/settings/index.html:9
 msgid "Settings"
 msgstr ""
 
-#: app/templates/base.html:146
-msgid "© 2025 %(business)s"
-msgstr ""
-
-#: app/templates/base.html:161
-msgid "Dashboard"
-msgstr ""
-
-#: app/templates/base.html:164
+#: app/templates/base.html:218 app/templates/dashboard/index.html:11
 msgid "Welcome back!"
 msgstr ""
 
-#: app/templates/base.html:178
+#: app/templates/base.html:247
 msgid "Close message"
-msgstr ""
-
-#: app/templates/dashboard/index.html:11
-msgid "Welcome back!"
 msgstr ""
 
 #: app/templates/dashboard/index.html:12
@@ -74,6 +60,7 @@ msgid "Total Revenue"
 msgstr ""
 
 #: app/templates/dashboard/index.html:34
+#, python-format
 msgid "+12%% from last month"
 msgstr ""
 
@@ -170,6 +157,7 @@ msgid "Actions"
 msgstr ""
 
 #: app/templates/dashboard/index.html:200
+#: app/templates/dashboard/index.html:202
 msgid "View invoice"
 msgstr ""
 
@@ -185,58 +173,129 @@ msgstr ""
 msgid "Create Your First Invoice"
 msgstr ""
 
-#: app/templates/settings/index.html:9
-msgid "Settings"
+#: app/templates/settings/backup.html:3 app/templates/settings/backup.html:5
+#: app/templates/settings/index.html:118
+msgid "Backup & Restore"
+msgstr ""
+
+#: app/templates/settings/backup.html:13
+msgid "Database Management"
+msgstr ""
+
+#: app/templates/settings/backup.html:24
+msgid "Export Database"
+msgstr ""
+
+#: app/templates/settings/backup.html:25
+msgid "Download a complete backup of your invoice data."
+msgstr ""
+
+#: app/templates/settings/backup.html:32
+msgid ""
+"This will download the current SQLite database file. You should do this "
+"regularly to prevent data loss."
+msgstr ""
+
+#: app/templates/settings/backup.html:37
+msgid "Download Backup (.db)"
+msgstr ""
+
+#: app/templates/settings/backup.html:50
+msgid "Restore Database"
+msgstr ""
+
+#: app/templates/settings/backup.html:51
+msgid "Restore your application data from a previously downloaded backup."
+msgstr ""
+
+#: app/templates/settings/backup.html:62
+msgid "Warning:"
+msgstr ""
+
+#: app/templates/settings/backup.html:62
+msgid ""
+"Restoring a database will permanently overwrite ALL current data "
+"including client info, invoices, and settings. This action cannot be "
+"undone."
+msgstr ""
+
+#: app/templates/settings/backup.html:71
+msgid "Select Backup File (.db)"
+msgstr ""
+
+#: app/templates/settings/backup.html:78
+msgid "Upload a file"
+msgstr ""
+
+#: app/templates/settings/backup.html:80
+msgid "or drag and drop"
+msgstr ""
+
+#: app/templates/settings/backup.html:94
+msgid "Are you absolutely sure? This will replace all current data."
+msgstr ""
+
+#: app/templates/settings/backup.html:96
+msgid "Confirm & Restore Data"
 msgstr ""
 
 #: app/templates/settings/index.html:10
 msgid "Manage your application settings and preferences."
 msgstr ""
 
-#: app/templates/settings/index.html:23
+#: app/templates/settings/index.html:25
 msgid "Currency Settings"
 msgstr ""
 
-#: app/templates/settings/index.html:24
+#: app/templates/settings/index.html:26
 msgid "Configure default currency and exchange rates"
 msgstr ""
 
-#: app/templates/settings/index.html:29
+#: app/templates/settings/index.html:32
 msgid "Manage Currencies"
 msgstr ""
 
-#: app/templates/settings/index.html:43
+#: app/templates/settings/index.html:48
 msgid "Email Settings"
 msgstr ""
 
-#: app/templates/settings/index.html:44
+#: app/templates/settings/index.html:49
 msgid "Configure email sending for invoices"
 msgstr ""
 
-#: app/templates/settings/index.html:49
+#: app/templates/settings/index.html:55
 msgid "Configure Email"
 msgstr ""
 
-#: app/templates/settings/index.html:63
+#: app/templates/settings/index.html:71
 msgid "PDF Templates"
 msgstr ""
 
-#: app/templates/settings/index.html:64
+#: app/templates/settings/index.html:72
 msgid "Customize invoice PDF appearance"
 msgstr ""
 
-#: app/templates/settings/index.html:69
+#: app/templates/settings/index.html:78
 msgid "Customize PDFs"
 msgstr ""
 
-#: app/templates/settings/index.html:83
+#: app/templates/settings/index.html:94
 msgid "Business Information"
 msgstr ""
 
-#: app/templates/settings/index.html:84
+#: app/templates/settings/index.html:95
 msgid "Update company details and branding"
 msgstr ""
 
-#: app/templates/settings/index.html:89
+#: app/templates/settings/index.html:101
 msgid "Update Business Info"
 msgstr ""
+
+#: app/templates/settings/index.html:119
+msgid "Export your data or restore from backup"
+msgstr ""
+
+#: app/templates/settings/index.html:126
+msgid "Manage Data"
+msgstr ""
+

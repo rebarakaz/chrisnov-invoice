@@ -1,63 +1,52 @@
 # Indonesian translation for Invoice Manager
 # Copyright (C) 2025 Chrisnov IT Solutions
-# This file is distributed under the same license as the Invoice Manager package.
+# This file is distributed under the same license as the Invoice Manager
+# package.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: invoice-manager 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 04:34+0000\n"
+"POT-Creation-Date: 2026-01-06 19:07+0800\n"
 "PO-Revision-Date: 2025-11-18 04:36+0000\n"
 "Last-Translator: Chrisnov IT Solutions\n"
-"Language-Team: Indonesian\n"
 "Language: id\n"
+"Language-Team: Indonesian\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: app/templates/base.html:6
-msgid "%(business)s - Invoice Manager"
-msgstr "%(business)s - Manajer Faktur"
-
-#: app/templates/base.html:120
+#: app/templates/base.html:161 app/templates/base.html:214
+#: app/templates/dashboard/index.html:3
 msgid "Dashboard"
 msgstr "Dasbor"
 
-#: app/templates/base.html:125
+#: app/templates/base.html:167
 msgid "Invoices"
 msgstr "Faktur"
 
-#: app/templates/base.html:130
+#: app/templates/base.html:173
 msgid "Recurring"
 msgstr "Berulang"
 
-#: app/templates/base.html:135
+#: app/templates/base.html:179
 msgid "Clients"
 msgstr "Klien"
 
-#: app/templates/base.html:140
+#: app/templates/base.html:185 app/templates/settings/index.html:3
+#: app/templates/settings/index.html:9
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: app/templates/base.html:146
-msgid "© 2025 %(business)s"
-msgstr "© 2025 %(business)s"
-
-#: app/templates/base.html:161
-msgid "Dashboard"
-msgstr "Dasbor"
-
-#: app/templates/base.html:164
+#: app/templates/base.html:218 app/templates/dashboard/index.html:11
 msgid "Welcome back!"
 msgstr "Selamat datang kembali!"
 
-#: app/templates/base.html:178
+#: app/templates/base.html:247
 msgid "Close message"
 msgstr "Tutup pesan"
-
-#: app/templates/dashboard/index.html:11
-msgid "Welcome back!"
-msgstr "Selamat datang kembali!"
 
 #: app/templates/dashboard/index.html:12
 msgid "Here's what's happening with your business today."
@@ -72,6 +61,7 @@ msgid "Total Revenue"
 msgstr "Total Pendapatan"
 
 #: app/templates/dashboard/index.html:34
+#, python-format
 msgid "+12%% from last month"
 msgstr "+12%% dari bulan lalu"
 
@@ -168,6 +158,7 @@ msgid "Actions"
 msgstr "Aksi"
 
 #: app/templates/dashboard/index.html:200
+#: app/templates/dashboard/index.html:202
 msgid "View invoice"
 msgstr "Lihat faktur"
 
@@ -183,58 +174,135 @@ msgstr "Mulai dengan membuat faktur pertama Anda. Cepat dan mudah!"
 msgid "Create Your First Invoice"
 msgstr "Buat Faktur Pertama Anda"
 
-#: app/templates/settings/index.html:9
-msgid "Settings"
-msgstr "Pengaturan"
+#: app/templates/settings/backup.html:3 app/templates/settings/backup.html:5
+#: app/templates/settings/index.html:118
+msgid "Backup & Restore"
+msgstr "Cadangkan & Pulihkan"
+
+#: app/templates/settings/backup.html:13
+msgid "Database Management"
+msgstr "Manajemen Database"
+
+#: app/templates/settings/backup.html:24
+msgid "Export Database"
+msgstr "Ekspor Database"
+
+#: app/templates/settings/backup.html:25
+msgid "Download a complete backup of your invoice data."
+msgstr "Unduh cadangan lengkap data faktur Anda."
+
+#: app/templates/settings/backup.html:32
+msgid ""
+"This will download the current SQLite database file. You should do this "
+"regularly to prevent data loss."
+msgstr "Ini akan mengunduh file database SQLite saat ini. Anda sebaiknya melakukan ini secara rutin untuk mencegah kehilangan data."
+
+#: app/templates/settings/backup.html:37
+msgid "Download Backup (.db)"
+msgstr "Unduh Cadangan (.db)"
+
+#: app/templates/settings/backup.html:50
+msgid "Restore Database"
+msgstr "Pulihkan Database"
+
+#: app/templates/settings/backup.html:51
+msgid "Restore your application data from a previously downloaded backup."
+msgstr "Pulihkan data aplikasi Anda dari cadangan yang telah diunduh sebelumnya."
+
+#: app/templates/settings/backup.html:62
+msgid "Warning:"
+msgstr "Peringatan:"
+
+#: app/templates/settings/backup.html:62
+msgid ""
+"Restoring a database will permanently overwrite ALL current data "
+"including client info, invoices, and settings. This action cannot be "
+"undone."
+msgstr "Memulihkan database akan menimpa SEMUA data saat ini secara permanen, termasuk info klien, faktur, dan pengaturan. Tindakan ini tidak dapat dibatalkan."
+
+#: app/templates/settings/backup.html:71
+msgid "Select Backup File (.db)"
+msgstr "Pilih File Cadangan (.db)"
+
+#: app/templates/settings/backup.html:78
+msgid "Upload a file"
+msgstr "Unggah file"
+
+#: app/templates/settings/backup.html:80
+msgid "or drag and drop"
+msgstr "atau seret dan lepas"
+
+#: app/templates/settings/backup.html:94
+msgid "Are you absolutely sure? This will replace all current data."
+msgstr "Apakah Anda benar-benar yakin? Ini akan menggantikan semua data saat ini."
+
+#: app/templates/settings/backup.html:96
+msgid "Confirm & Restore Data"
+msgstr "Konfirmasi & Pulihkan Data"
 
 #: app/templates/settings/index.html:10
 msgid "Manage your application settings and preferences."
 msgstr "Kelola pengaturan aplikasi dan preferensi Anda."
 
-#: app/templates/settings/index.html:23
+#: app/templates/settings/index.html:25
 msgid "Currency Settings"
 msgstr "Pengaturan Mata Uang"
 
-#: app/templates/settings/index.html:24
+#: app/templates/settings/index.html:26
 msgid "Configure default currency and exchange rates"
 msgstr "Konfigurasi mata uang default dan nilai tukar"
 
-#: app/templates/settings/index.html:29
+#: app/templates/settings/index.html:32
 msgid "Manage Currencies"
 msgstr "Kelola Mata Uang"
 
-#: app/templates/settings/index.html:43
+#: app/templates/settings/index.html:48
 msgid "Email Settings"
 msgstr "Pengaturan Email"
 
-#: app/templates/settings/index.html:44
+#: app/templates/settings/index.html:49
 msgid "Configure email sending for invoices"
 msgstr "Konfigurasi pengiriman email untuk faktur"
 
-#: app/templates/settings/index.html:49
+#: app/templates/settings/index.html:55
 msgid "Configure Email"
 msgstr "Konfigurasi Email"
 
-#: app/templates/settings/index.html:63
+#: app/templates/settings/index.html:71
 msgid "PDF Templates"
 msgstr "Template PDF"
 
-#: app/templates/settings/index.html:64
+#: app/templates/settings/index.html:72
 msgid "Customize invoice PDF appearance"
 msgstr "Sesuaikan tampilan PDF faktur"
 
-#: app/templates/settings/index.html:69
+#: app/templates/settings/index.html:78
 msgid "Customize PDFs"
 msgstr "Sesuaikan PDF"
 
-#: app/templates/settings/index.html:83
+#: app/templates/settings/index.html:94
 msgid "Business Information"
 msgstr "Informasi Bisnis"
 
-#: app/templates/settings/index.html:84
+#: app/templates/settings/index.html:95
 msgid "Update company details and branding"
 msgstr "Perbarui detail perusahaan dan branding"
 
-#: app/templates/settings/index.html:89
+#: app/templates/settings/index.html:101
 msgid "Update Business Info"
 msgstr "Perbarui Info Bisnis"
+
+#: app/templates/settings/index.html:119
+msgid "Export your data or restore from backup"
+msgstr ""
+
+#: app/templates/settings/index.html:126
+msgid "Manage Data"
+msgstr ""
+
+#~ msgid "%(business)s - Invoice Manager"
+#~ msgstr "%(business)s - Manajer Faktur"
+
+#~ msgid "© 2025 %(business)s"
+#~ msgstr "© 2025 %(business)s"
+

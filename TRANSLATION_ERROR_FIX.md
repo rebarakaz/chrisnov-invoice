@@ -40,4 +40,4 @@ The `%` character was being interpreted as a Python string formatting operator, 
 ✅ **Application should now load without errors**
 ✅ **Language switching fully functional**
 
-Your invoice app with Indonesian and English language support should now be working properly!
+Chrisnov Invoice app with Indonesian and English language support should now be working properly!

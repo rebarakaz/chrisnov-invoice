@@ -4,6 +4,8 @@ import os
 from werkzeug.utils import secure_filename
 from app.models import Setting, Currency
 from app import db
+from app.services.backup_service import BackupService
+from flask import send_file
 
 bp = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -262,3 +264,54 @@ def pdf_templates():
         return redirect(url_for('settings.pdf_templates'))
 
     return render_template('settings/pdf_templates.html')
+
+@bp.route('/backup', methods=['GET'])
+def backup_index():
+    """Display backup and restore options"""
+    return render_template('settings/backup.html')
+
+@bp.route('/backup/export', methods=['GET'])
+def export_db():
+    """Download current database file"""
+    db_path = BackupService.get_db_path()
+    if os.path.exists(db_path):
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+        return send_file(
+            db_path,
+            as_attachment=True,
+            download_name=f"chrisnov_invoice_backup_{timestamp}.db"
+        )
+    flash('Database file not found.', 'error')
+    return redirect(url_for('settings.backup_index'))
+
+@bp.route('/backup/import', methods=['POST'])
+def import_db():
+    """Restore database from uploaded file"""
+    if 'backup_file' not in request.files:
+        flash('No file uploaded.', 'error')
+        return redirect(url_for('settings.backup_index'))
+    
+    file = request.files['backup_file']
+    if file.filename == '':
+        flash('No file selected.', 'error')
+        return redirect(url_for('settings.backup_index'))
+    
+    if file and file.filename.endswith('.db'):
+        # Save temp file
+        temp_path = os.path.join(current_app.instance_path, 'temp_restore.db')
+        file.save(temp_path)
+        
+        success, error = BackupService.restore_from_file(temp_path)
+        
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+            
+        if success:
+            flash('Database restored successfully! Please restart the application if you encounter issues.', 'success')
+        else:
+            flash(f'Restore failed: {error}', 'error')
+    else:
+        flash('Invalid file format. Please upload a .db file.', 'error')
+        
+    return redirect(url_for('settings.backup_index'))
+

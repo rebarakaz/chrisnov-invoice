@@ -2,7 +2,7 @@
 
 ## Overview
 
-Your invoice app now supports English and Indonesian languages with full internationalization (i18n) functionality.
+Chrisnov Invoice app now supports English and Indonesian languages with full internationalization (i18n) functionality.
 
 ## What Was Implemented
 
@@ -168,4 +168,4 @@ Edit `.po` files and run the compilation script to update translations.
 3. Test language switching in production environment
 4. Monitor translation completeness and accuracy
 
-Your invoice app now supports multi-language functionality, making it accessible to both English and Indonesian-speaking users!
+Chrisnov Invoice app now supports multi-language functionality, making it accessible to both English and Indonesian-speaking users!
