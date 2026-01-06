@@ -27,8 +27,15 @@
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 💻 For Regular Users (Windows)
+If you don't want to deal with Python and terminal commands, just download the latest standalone version:
+1. Go to the [Releases](https://github.com/rebarakaz/chrisnov-invoice/releases) page.
+2. Download `ChrisnovInvoice-Windows-v1.2.0.zip`.
+3. Extract and run `ChrisnovInvoice.exe`.
 
+---
+
+### 🛠️ For Developers
 - Python 3.8+
 - Pip (Python Package Manager)
 
