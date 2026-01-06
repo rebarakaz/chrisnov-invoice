@@ -134,3 +134,4 @@ chrisnov_invoice.db
 sessions/
 *.pdf
 app/static/images/logo.png
+*.zip
