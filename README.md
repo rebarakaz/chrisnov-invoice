@@ -155,8 +155,14 @@ For more detailed information on specific features, please refer to the followin
 - [Email Settings](docs/EMAIL_SETTINGS_GUIDE.md): Setting up SMTP for direct invoice delivery.
 - [Currency Settings](docs/CURRENCY_SETTINGS_GUIDE.md): Managing multiple currencies and rounding.
 
-## 📜 Changelog
+## ☕ Support the Project
+If you find **Chrisnov Invoice** useful and want to support its development (and help me save up for a new PC! 💻), feel free to buy me a coffee! Any donation is greatly appreciated.
 
+[<img src="https://img.shields.io/badge/Donate-PayPal-blue.svg?style=for-the-badge&logo=paypal" alt="Donate with PayPal" />](https://paypal.me/rebarakaz)
+
+---
+
+## 📜 Changelog
 Stay up-to-date with the latest features, improvements, and bug fixes by checking the [CHANGELOG.md](CHANGELOG.md).
 
 ## �️ Roadmap

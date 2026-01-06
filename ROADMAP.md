@@ -2,6 +2,11 @@
 
 Welcome to the future of **Chrisnov Invoice**! We are committed to making this the most elegant and efficient invoicing tool for freelancers and small businesses. Below is our vision for upcoming versions.
 
+## ✅ Completed (v1.2.0 "Standalone & Secure")
+- [x] **Desktop Mode Support**: Standalone Windows executable (.exe) using `flaskwebgui` and `PyInstaller`.
+- [x] **Database Backup & Restore**: Built-in system to export/import the entire database from the Settings menu.
+- [x] **Refined i18n System**: Official `pybabel` implementation for stable and standardized translations.
+
 ## ✅ Completed (v1.1.0 "Elegant & Global")
 - [x] **Internationalization**: Full Bahasa Indonesia and English support with session persistence.
 - [x] **App Branding**: Logo support in sidebar and "Elegant" PDF template.
@@ -10,11 +15,11 @@ Welcome to the future of **Chrisnov Invoice**! We are committed to making this t
 
 ---
 
-## 🚀 Phase 1: Visual & Performance Punch
+## 🚀 Phase 1: Visual & Intelligence Tracking
 1. **Interactive Dashboard 📊**
    - Integrate Chart.js for visual revenue tracking, income vs. month, and client breakdowns.
-2. **One-Click Data Backup 💾**
-   - Single-button export for all invoice data (CSV) and a ZIP archive of all generated PDFs.
+2. **Business Analytics**
+   - Detailed financial reports and tax summaries for end-of-year accounting.
 3. **Enhanced Search & Sorting**
    - Advanced filtering for invoice lists (by status, date range, or client).
 
