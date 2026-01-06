@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0] - 2026-01-06
+### Added
+- **Backup & Restore**: New settings section to export and import database backups (.db files).
+- **Desktop Mode Support**: Added `run_desktop.py` using `flaskwebgui` for a native app feel.
+- **Standalone Build Script**: Added `build_exe.py` to easily bundle the app into a Windows executable.
+- New dependencies: `flaskwebgui`, `pyinstaller`.
+
+### Fixed
+- **Translation System**: Standardized translation compilation using official `pybabel`.
+- **Git Visibility**: Fixed `.gitignore` to allow tracking of essential translation and documentation files.
+- **Corrupt MO Files**: Resolved issue where manual binary generation caused compatibility errors in Python 3.14.
+
 All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2025-12-30 "Elegant & Global Update"

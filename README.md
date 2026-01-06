@@ -55,10 +55,21 @@
    ```
 
 4. **Run the application**:
+   - **Web Mode** (Standard):
+     ```bash
+     python run.py
+     ```
+   - **Desktop Mode** (Independent window):
+     ```bash
+     python run_desktop.py
+     ```
 
-   ```bash
-   python run.py
-   ```
+### 📦 Building for Windows (.exe)
+To create a standalone executable for Windows (no Python required for users):
+```bash
+python build_exe.py
+```
+After building, find your app in the `dist/ChrisnovInvoice` folder.
 
 5. **Access the application**:
    Open your web browser and navigate to `http://127.0.0.1:5000`.
