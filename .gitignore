@@ -52,8 +52,8 @@ coverage.xml
 cover/
 
 # Translations
-*.mo
-*.pot
+# *.mo
+# *.pot
 
 # Django stuff:
 *.log
@@ -125,9 +125,9 @@ dmypy.json
 .pyre/
 
 # Internal Development Notes
-*_GUIDE.md
-*_FIX.md
-TROUBLESHOOTING*.md
+# *_GUIDE.md
+# *_FIX.md
+# TROUBLESHOOTING*.md
 
 # Custom
 chrisnov_invoice.db
