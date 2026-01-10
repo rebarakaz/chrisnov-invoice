@@ -8,3 +8,5 @@ python-dateutil==2.8.2
 Flask-Migrate==4.1.0
 flaskwebgui==1.1.8
 pyinstaller==6.17.0
+gunicorn==22.0.0
+python-dotenv==1.0.1
