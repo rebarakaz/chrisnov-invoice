@@ -61,7 +61,7 @@ def new():
                 issue_date=datetime.strptime(request.form['issue_date'], '%Y-%m-%d').date(),
                 due_date=datetime.strptime(request.form['due_date'], '%Y-%m-%d').date(),
                 currency=request.form.get('currency', current_app.config['DEFAULT_CURRENCY']),
-                tax_rate=float(request.form.get('tax_rate', 0)) / 100,
+                tax_rate=float(request.form.get('tax_rate') or 0) / 100,
                 notes=request.form.get('notes')
             )
             
@@ -119,7 +119,7 @@ def edit(id):
             invoice.issue_date = datetime.strptime(request.form['issue_date'], '%Y-%m-%d').date()
             invoice.due_date = datetime.strptime(request.form['due_date'], '%Y-%m-%d').date()
             invoice.currency = request.form.get('currency', current_app.config['DEFAULT_CURRENCY'])
-            invoice.tax_rate = float(request.form.get('tax_rate', 0)) / 100
+            invoice.tax_rate = float(request.form.get('tax_rate') or 0) / 100
             invoice.notes = request.form.get('notes')
             
             # Remove existing items
