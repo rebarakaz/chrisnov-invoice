@@ -1,9 +1,31 @@
 from app import create_app
-from app.models import RecurringInvoice, Invoice, InvoiceItem
+from app.models import RecurringInvoice, Invoice, InvoiceItem, Currency
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import click
 from app.extensions import db
+
+app = create_app()
+
+@app.cli.command("init-db")
+def init_db_command():
+    """Create all database tables and seed initial data."""
+    db.create_all()
+    click.echo("Initialized the database and created all tables.")
+
+    if Currency.query.count() == 0:
+        currencies = [
+            {'code': 'IDR', 'name': 'Indonesian Rupiah', 'symbol': 'Rp'},
+            {'code': 'USD', 'name': 'US Dollar', 'symbol': '$'},
+            {'code': 'EUR', 'name': 'Euro', 'symbol': '€'}
+        ]
+        for c in currencies:
+            db.session.add(Currency(code=c['code'], name=c['name'], symbol=c['symbol']))
+        db.session.commit()
+        click.echo("Seeded currency data.")
+    else:
+        click.echo("Currency data already exists.")
+
 
 app = create_app()
 

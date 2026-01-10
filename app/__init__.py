@@ -76,20 +76,11 @@ def create_app(config_class=Config):
         session.modified = True
         return redirect(request.referrer or url_for('dashboard.index'))
 
-    with app.app_context():
-        db.create_all()
-        if Currency.query.count() == 0:
-            currencies = [
-                {'code': 'IDR', 'name': 'Indonesian Rupiah', 'symbol': 'Rp'},
-                {'code': 'USD', 'name': 'US Dollar', 'symbol': '$'},
-                {'code': 'EUR', 'name': 'Euro', 'symbol': '€'}
-            ]
-            for c in currencies:
-                db.session.add(Currency(code=c['code'], name=c['name'], symbol=c['symbol']))
-            db.session.commit()
+    # The database initialization logic has been moved to a separate CLI command.
+    # This prevents the app from trying to re-create tables on every startup.
 
     def load_settings_from_db(app):
-        with app.app_context():
+        try:
             for setting in Setting.query.all():
                 # Handle type conversion
                 if setting.value.isdigit():
@@ -98,10 +89,11 @@ def create_app(config_class=Config):
                     app.config[setting.key] = setting.value.lower() == 'true'
                 else:
                     app.config[setting.key] = setting.value
-
-    # Load settings from DB
+        except Exception as e:
+            # This can happen if the database is not yet initialized
+            print(f"Could not load settings from DB: {e}")
+    # Load settings from DB at startup
     with app.app_context():
-        db.create_all()
         load_settings_from_db(app)
 
     # Add currency formatting filter
