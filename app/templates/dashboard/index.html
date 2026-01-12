@@ -12,7 +12,7 @@
                 <p class="text-blue-100 text-lg">{{ _("Here's what's happening with your business today.") }}</p>
             </div>
             <div class="mt-6 md:mt-0">
-                <a href="{{ url_for('invoices.new') }}" class="inline-flex items-center px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-50 transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <a href="{{ url_for('invoices.new') }}" class="inline-flex items-center px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-200 transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     <i class="fas fa-plus mr-2"></i>
                     {{ _('Create Invoice') }}
                 </a>
@@ -24,69 +24,87 @@
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Total Revenue -->
-    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-100">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-100">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">{{ _('Total Revenue') }}</p>
-                <p class="text-3xl font-bold text-gray-800">{{ total_revenue|format_currency(config['DEFAULT_CURRENCY']) }}</p>
-                <p class="text-xs text-green-600 mt-1">
-                    <i class="fas fa-arrow-up mr-1"></i>
-                    {{ _('+12%% from last month') }}
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{{ _('Total Revenue') }}</p>
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ total_revenue|format_currency(config['DEFAULT_CURRENCY']) }}</p>
+                {% if total_revenue > 0 %}
+                    {% if revenue_growth > 0 %}
+                    <p class="text-xs text-green-600 dark:text-green-400 mt-1">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        {{ "%+.0f%%"|format(revenue_growth) }} {{ _('from last month') }}
+                    </p>
+                    {% elif revenue_growth < 0 %}
+                    <p class="text-xs text-red-600 dark:text-red-400 mt-1">
+                        <i class="fas fa-arrow-down mr-1"></i>
+                        {{ "%+.0f%%"|format(revenue_growth) }} {{ _('from last month') }}
+                    </p>
+                    {% else %}
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <i class="fas fa-minus mr-1"></i>
+                        {{ _('Same as last month') }}
+                    </p>
+                    {% endif %}
+                {% else %}
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    {{ _('Start creating invoices') }}
                 </p>
+                {% endif %}
             </div>
-            <div class="bg-green-100 rounded-full p-4 group-hover:bg-green-200 transition duration-200">
-                <i class="fas fa-money-bill-wave text-2xl text-green-600"></i>
+            <div class="bg-green-100 dark:bg-green-900/30 rounded-full p-4 group-hover:bg-green-200 transition duration-200">
+                <i class="fas fa-money-bill-wave text-2xl text-green-600 dark:text-green-400"></i>
             </div>
         </div>
     </div>
 
     <!-- Pending Amount -->
-    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-200">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border-l-4 border-yellow-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-200">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">{{ _('Pending Amount') }}</p>
-                <p class="text-3xl font-bold text-gray-800">{{ pending_amount|format_currency(config['DEFAULT_CURRENCY']) }}</p>
-                <p class="text-xs text-yellow-600 mt-1">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{{ _('Pending Amount') }}</p>
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ pending_amount|format_currency(config['DEFAULT_CURRENCY']) }}</p>
+                <p class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
                     <i class="fas fa-clock mr-1"></i>
                     {{ _('Awaiting payment') }}
                 </p>
             </div>
-            <div class="bg-yellow-100 rounded-full p-4 group-hover:bg-yellow-200 transition duration-200">
-                <i class="fas fa-clock text-2xl text-yellow-600"></i>
+            <div class="bg-yellow-100 dark:bg-yellow-900/30 rounded-full p-4 group-hover:bg-yellow-200 transition duration-200">
+                <i class="fas fa-clock text-2xl text-yellow-600 dark:text-yellow-400"></i>
             </div>
         </div>
     </div>
 
     <!-- Total Invoices -->
-    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-300">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-300">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">{{ _('Total Invoices') }}</p>
-                <p class="text-3xl font-bold text-gray-800">{{ total_invoices }}</p>
-                <p class="text-xs text-blue-600 mt-1">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{{ _('Total Invoices') }}</p>
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ total_invoices }}</p>
+                <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">
                     <i class="fas fa-file-invoice mr-1"></i>
                     {{ _('All time') }}
                 </p>
             </div>
-            <div class="bg-blue-100 rounded-full p-4 group-hover:bg-blue-200 transition duration-200">
-                <i class="fas fa-file-invoice text-2xl text-blue-600"></i>
+            <div class="bg-blue-100 dark:bg-blue-900/30 rounded-full p-4 group-hover:bg-blue-200 transition duration-200">
+                <i class="fas fa-file-invoice text-2xl text-blue-600 dark:text-blue-400"></i>
             </div>
         </div>
     </div>
 
     <!-- Total Clients -->
-    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-400">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition duration-200 animate-slide-in animation-delay-400">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">{{ _('Total Clients') }}</p>
-                <p class="text-3xl font-bold text-gray-800">{{ total_clients }}</p>
-                <p class="text-xs text-purple-600 mt-1">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{{ _('Total Clients') }}</p>
+                <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ total_clients }}</p>
+                <p class="text-xs text-purple-600 dark:text-purple-400 mt-1">
                     <i class="fas fa-users mr-1"></i>
                     {{ _('Active clients') }}
                 </p>
             </div>
-            <div class="bg-purple-100 rounded-full p-4 group-hover:bg-purple-200 transition duration-200">
-                <i class="fas fa-users text-2xl text-purple-600"></i>
+            <div class="bg-purple-100 dark:bg-purple-900/30 rounded-full p-4 group-hover:bg-purple-200 transition duration-200">
+                <i class="fas fa-users text-2xl text-purple-600 dark:text-purple-400"></i>
             </div>
         </div>
     </div>
@@ -95,58 +113,58 @@
 <!-- Invoice Status Overview -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <!-- Invoice Status -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">{{ _('Invoice Status') }}</h3>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">{{ _('Invoice Status') }}</h3>
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-3 h-3 bg-gray-400 rounded-full mr-3"></div>
-                    <span class="text-gray-700">{{ _('Draft') }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ _('Draft') }}</span>
                 </div>
-                <span class="font-semibold text-gray-800">{{ draft_count }}</span>
+                <span class="font-semibold text-gray-800 dark:text-white">{{ draft_count }}</span>
             </div>
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-                    <span class="text-gray-700">{{ _('Sent') }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ _('Sent') }}</span>
                 </div>
-                <span class="font-semibold text-gray-800">{{ sent_count }}</span>
+                <span class="font-semibold text-gray-800 dark:text-white">{{ sent_count }}</span>
             </div>
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-3 h-3 bg-orange-500 rounded-full mr-3"></div>
-                    <span class="text-gray-700">{{ _('Unpaid') }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ _('Unpaid') }}</span>
                 </div>
-                <span class="font-semibold text-gray-800">{{ unpaid_count }}</span>
+                <span class="font-semibold text-gray-800 dark:text-white">{{ unpaid_count }}</span>
             </div>
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
-                    <span class="text-gray-700">{{ _('Paid') }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ _('Paid') }}</span>
                 </div>
-                <span class="font-semibold text-gray-800">{{ paid_count }}</span>
+                <span class="font-semibold text-gray-800 dark:text-white">{{ paid_count }}</span>
             </div>
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-3 h-3 bg-red-500 rounded-full mr-3"></div>
-                    <span class="text-gray-700">{{ _('Overdue') }}</span>
+                    <span class="text-gray-700 dark:text-gray-300">{{ _('Overdue') }}</span>
                 </div>
-                <span class="font-semibold text-gray-800">{{ overdue_count }}</span>
+                <span class="font-semibold text-gray-800 dark:text-white">{{ overdue_count }}</span>
             </div>
         </div>
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">{{ _('Quick Actions') }}</h3>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">{{ _('Quick Actions') }}</h3>
         <div class="space-y-3">
-            <a href="{{ url_for('invoices.new') }}" class="block w-full bg-primary hover:bg-blue-900 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
+            <a href="{{ url_for('invoices.new') }}" class="block w-full bg-primary hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
                 <i class="fas fa-plus mr-2"></i> {{ _('Create New Invoice') }}
             </a>
-            <a href="{{ url_for('clients.new') }}" class="block w-full bg-secondary hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
+            <a href="{{ url_for('clients.new') }}" class="block w-full bg-secondary hover:bg-teal-600 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
                 <i class="fas fa-user-plus mr-2"></i> {{ _('Add New Client') }}
             </a>
-            <a href="{{ url_for('invoices.index') }}" class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
+            <a href="{{ url_for('invoices.index') }}" class="block w-full bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition text-center">
                 <i class="fas fa-list mr-2"></i> {{ _('View All Invoices') }}
             </a>
         </div>
@@ -154,50 +172,50 @@
 </div>
 
 <!-- Recent Invoices -->
-<div class="bg-white rounded-lg shadow-md">
-    <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-bold text-gray-800">{{ _('Recent Invoices') }}</h3>
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white">{{ _('Recent Invoices') }}</h3>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full">
-            <thead class="bg-gray-50">
+            <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Invoice #') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Client') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Date') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Amount') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Status') }}</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ _('Actions') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Invoice #') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Client') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Date') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Amount') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Status') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ _('Actions') }}</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {% if recent_invoices %}
                     {% for invoice in recent_invoices %}
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                             {{ invoice.invoice_number }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                             {{ invoice.client.name }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                             {{ invoice.issue_date.strftime('%b %d, %Y') }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white font-semibold">
                             {{ invoice.total|format_currency(invoice.currency) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
-                                {% if invoice.status == 'paid' %}bg-green-100 text-green-800
-                                {% elif invoice.status == 'sent' %}bg-blue-100 text-blue-800
-                                {% elif invoice.status == 'unpaid' %}bg-orange-100 text-orange-800
-                                {% elif invoice.status == 'overdue' %}bg-red-100 text-red-800
-                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {% if invoice.status == 'paid' %}bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                {% elif invoice.status == 'sent' %}bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                {% elif invoice.status == 'unpaid' %}bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200
+                                {% elif invoice.status == 'overdue' %}bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                {% else %}bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300{% endif %}">
                                 {{ _(invoice.status|capitalize) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ url_for('invoices.view', id=invoice.id) }}" class="text-blue-600 hover:text-blue-800 mr-3" title="{{ _('View invoice') }} {{ invoice.invoice_number }}">
+                            <a href="{{ url_for('invoices.view', id=invoice.id) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mr-3" title="{{ _('View invoice') }} {{ invoice.invoice_number }}">
                                 <i class="fas fa-eye"></i>
                                 <span class="sr-only">{{ _('View invoice') }} {{ invoice.invoice_number }}</span>
                             </a>
@@ -208,13 +226,13 @@
                     <tr>
                         <td colspan="6" class="px-6 py-12 text-center">
                             <div class="animate-bounce-subtle">
-                                <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-4">
-                                    <i class="fas fa-file-invoice text-3xl text-blue-600"></i>
+                                <div class="mx-auto w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-full flex items-center justify-center mb-4">
+                                    <i class="fas fa-file-invoice text-3xl text-blue-600 dark:text-blue-300"></i>
                                 </div>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ _('No invoices yet') }}</h3>
-                            <p class="text-gray-500 mb-6 max-w-md mx-auto">{{ _("Get started by creating your first invoice. It's quick and easy!") }}</p>
-                            <a href="{{ url_for('invoices.new') }}" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-blue-900 text-white font-semibold rounded-lg transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ _('No invoices yet') }}</h3>
+                            <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">{{ _("Get started by creating your first invoice. It's quick and easy!") }}</p>
+                            <a href="{{ url_for('invoices.new') }}" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-emerald-700 text-white font-semibold rounded-lg transition duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 <i class="fas fa-plus mr-2"></i>
                                 {{ _('Create Your First Invoice') }}
                             </a>
